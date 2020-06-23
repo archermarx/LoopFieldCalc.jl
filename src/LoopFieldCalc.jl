@@ -171,7 +171,7 @@ function save_field(z, r, Bz, Br, path)
 		zonestr = @sprintf "ZONE I=%5d, J=%5d, F = POINT\n" ni nj
 		write(io, zonestr)
 		for j in 1:nj, i in 1:ni
-			line = @sprintf "%.e\t%r\t%r\t%r\n" z[i, j] r[i, j] Bz[i, j] Br[i, j]
+			line = @sprintf "%e\t%e\t%e\t%e\n" z[i, j] r[i, j] Bz[i, j] Br[i, j]
 			write(io, line)
 		end
 	end
