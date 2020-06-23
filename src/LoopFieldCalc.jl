@@ -1,6 +1,6 @@
 module LoopFieldCalc
 
-using Elliptic, Printf
+using Elliptic, Printf, Contour
 include("meshtools.jl")
 export 	CurrentLoop,
 		calculatefieldonmesh,
