@@ -5,7 +5,7 @@ using Test, Plots, GeometricalPredicates
 	rT = 0.0275
 	zmax = 80.
 	rmax = 40.
-  	h = 0.5
+  	h = 1
 
 	zgrid = [z for r in 0:h:rmax, z in 0:h:zmax] * rT
 	rgrid = [r for r in 0:h:rmax, z in 0:h:zmax] * rT
@@ -15,7 +15,7 @@ using Test, Plots, GeometricalPredicates
 	myloop = CurrentLoop(3.5 * rT; Bfield = B0)
 	Bz, Br, λ, χ = calculatefieldonmesh(zgrid, rgrid, myloop)
 
-	throatline = LoopFieldCalc.extractfieldline(0, 1, zgrid, rgrid, λ, myloop)
+	throatline = LoopFieldCalc.extractfieldline(0, rT, zgrid, rgrid, λ, myloop)
 	polyline = [throatline; -1 rmax+0.1; -1 1]
 	#LoopFieldCalc.replace_in_polygon(zgrid, rgrid, (Bz, Br, λ, χ), polyline, NaN)
 
@@ -38,5 +38,24 @@ using Test, Plots, GeometricalPredicates
 
 	LoopFieldCalc.save_field(zgrid, rgrid, Bz, Br, abspath("test.dat"))
 
-	@show size(throatline)
+	boundarypts = [
+		throatline;
+		[zmax rmax; zmax 0; 0 0] .* rT;
+	]
+	casename = "LoopNozzle"
+	generate_boundary_file(boundarypts, casename)
+	p1 = plot(boundarypts[:, 1], boundarypts[:, 2], aspect_ratio = 1, label = "")
+
+	display(p1)
+end
+
+function generate_boundary_file(nodes, casename)
+	filename = "Boundary_" * casename * ".dat"
+	npts = size(nodes, 1)
+    open(filename, "w") do io
+        write(io, string(npts))
+        for i = 1:npts
+            write(io, "\n", string(nodes[i, 1]), " ", string(nodes[i, 2]))
+        end
+    end
 end
