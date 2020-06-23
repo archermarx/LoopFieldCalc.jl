@@ -165,13 +165,13 @@ function extractfieldline(z, r, zgrid, rgrid, λgrid, loop::CurrentLoop)
 end
 
 function save_field(z, r, Bz, Br, path)
-	nj, ni = size(Bz)
+	ni, nj = size(Bz)
 	open(path, "w") do io
 		write(io, "VARIABLES = \"z\" \"r\" \"Bz\" \"Br\"\n")
 		zonestr = @sprintf "ZONE I=%5d, J=%5d, F = POINT\n" ni nj
 		write(io, zonestr)
 		for  i in 1:ni, j in 1:nj
-			line = @sprintf "%f\t%f\t%f\t%f\n" z[j, i] r[j, i] Bz[j, i] Br[j, i]
+			line = @sprintf "%f\t%f\t%f\t%f\n" z[i, j] r[i, j] Bz[i, j] Br[i, j]
 			write(io, line)
 		end
 	end
