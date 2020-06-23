@@ -170,7 +170,7 @@ function save_field(z, r, Bz, Br, path)
 		write(io, "VARIABLES = \"z\" \"r\" \"Bz\" \"Br\"\n")
 		zonestr = @sprintf "ZONE I=%5d, J=%5d, F = POINT\n" ni nj
 		write(io, zonestr)
-		for  j in 1:nj, i in 1:ni
+		for  i in 1:ni, j in 1:nj
 			line = @sprintf "%.e\t%.e\t%.e\t%.e\n" z[j, i] r[j, i] Bz[j, i] Br[j, i]
 			write(io, line)
 		end
