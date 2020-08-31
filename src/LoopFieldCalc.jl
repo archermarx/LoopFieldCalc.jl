@@ -1,7 +1,6 @@
 module LoopFieldCalc
 
 using Elliptic, Printf, Contour
-include("meshtools.jl")
 export 	CurrentLoop,
 		calculatefieldonmesh,
 		loopstreamfunc,
@@ -10,7 +9,7 @@ export 	CurrentLoop,
 		save_field,
 		B0
 
-const VACUUM_PERMITTIVITY = 4 * pi * 1e-7
+VACUUM_PERMEABILITY = 4 * pi * 1e-7
 
 struct CurrentLoop{T <: Real}
 	radius::T
@@ -23,17 +22,17 @@ function CurrentLoop(radius::T, current::T; z_coord::T = zero(T)) where {T<:Real
 end
 
 function CurrentLoop(radius::T; Bfield::T, z_coord::T = zero(T)) where {T<:Real}
-	current = Bfield / VACUUM_PERMITTIVITY * 2 * radius
+	current = Bfield / VACUUM_PERMEABILITY * 2 * radius
 	return CurrentLoop(radius, current, z_coord)
 end
 
-B0(loop) = VACUUM_PERMITTIVITY * loop.current / 2 / loop.radius;
+B0(loop) = VACUUM_PERMEABILITY * loop.current / 2 / loop.radius;
 
 function loopstreamfunc(z, r, rL, I)
 	Rmax² = z^2 + (r+rL)^2
 	Rmax = sqrt(Rmax²)
     k² = 4*r*rL / Rmax²
-	B₀ = VACUUM_PERMITTIVITY * I / 2/ rL
+	B₀ = VACUUM_PERMEABILITY * I / 2/ rL
 
     E = Elliptic.E(k²)
 	K = Elliptic.K(k²)
@@ -119,7 +118,7 @@ function fieldatpoint(z, r, rL, I)
 		Ω = - 2*z/Rmax*K + π*Λ
 	end
 
-	μ₀ = VACUUM_PERMITTIVITY
+	μ₀ = VACUUM_PERMEABILITY
 
 	B₀ = μ₀ * I / 2/ rL;
 
@@ -157,15 +156,50 @@ function calculatefieldonmesh(zgrid, rgrid, loop::CurrentLoop)
 	return Bz, Br, λ, χ
 end
 
-function extractfieldline(z, r, zgrid, rgrid, λgrid, loop::CurrentLoop)
-	λT = loopstreamfunc([z r], loop)
-	throatline = Contour.contour(zgrid, rgrid, λgrid, λT[1])
+function extractfieldline(z, r, zgrid, rgrid, λgrid)
+	zvals = zgrid[1, :]
+	rvals = rgrid[:, 1]
+	zind = findfirst(zval -> zval > z, zvals)
+	rind = findfirst(rval -> rval > r, rvals)
+
+	if zind == 1 && rind == 1
+		λT = λ[1,1]
+	elseif zind == 1
+		λ_bot = λgrid[rind - 1, 1]
+		λ_top = λgrid[rind, 1]
+		rwt = (r - rgrid[rind - 1, 1]) / (rgrid[rind, 1] - rgrid[rind - 1, 1])
+		λT = (λ_top - λ_bot) * rwt + λ_bot
+	elseif rind == 1
+		λ_left = λgrid[1, zind - 1]
+		λ_right = λgrid[1, zind]
+		zwt = (z - zgrid[1, zind - 1]) / (zgrid[1, zind] - zgrid[1, zind - 1])
+		λT = (λ_right - λ_left) * zwt + λ_left
+	else
+		λ_br = λgrid[rind - 1, zind]
+		λ_tr = λgrid[rind, zind]
+		λ_bl = λgrid[rind - 1, zind - 1]
+		λ_tl = λgrid[rind, zind - 1]
+		zwt = (z - zgrid[1, zind - 1]) / (zgrid[1, zind] - zgrid[1, zind - 1])
+		rwt = (r - rgrid[rind - 1, 1]) / (rgrid[rind, 1] - rgrid[rind - 1, 1])
+
+		λ_top = zwt * (λ_tr - λ_tl) + λ_tl
+		λ_bot = zwt * (λ_br - λ_bl) + λ_bl
+
+		λT = (λ_top - λ_bot) * rwt + λ_bot
+	end
+
+	throatline = Contour.contour(zgrid, rgrid, λgrid, λT)
 	zs, rs = coordinates(lines(throatline)[1])
 	return [zs rs]
 end
 
 function save_field(z, r, Bz, Br, path)
 	ni, nj = size(Bz)
+	#for i in eachindex(Br)
+	#	if Br[i] == 0.0
+	#		Br[i] = 1e-16
+	#	end
+	#end
 	open(path, "w") do io
 		write(io, "VARIABLES = \"z\" \"r\" \"Bz\" \"Br\"\n")
 		zonestr = @sprintf "ZONE I=%5d, J=%5d, F = POINT\n" ni nj
@@ -175,6 +209,17 @@ function save_field(z, r, Bz, Br, path)
 			write(io, line)
 		end
 	end
+end
+
+function generate_boundary_file(nodes, casename)
+	filename = "Boundary_" * casename * ".dat"
+	npts = size(nodes, 1)
+    open(filename, "w") do io
+        write(io, string(npts))
+        for i = 1:npts
+            write(io, "\n", string(nodes[i, 1]), " ", string(nodes[i, 2]))
+        end
+    end
 end
 
 end
