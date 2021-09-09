@@ -23,6 +23,9 @@ CurrentLoop(radius, current, cyl::CylindricalPoint) =
 
 B0(loop) = μ₀ * loop.current / 2 / loop.radius
 
+
+field_at_point(loop, point::CylindricalPoint) = field_at_point(loop, cylindrical2cartesian(point))
+
 """
 	field_at_point(loop, point::CartesianPoint)
 Compute the field strength due to a current loop at a point in the cartesian plane. Returns
@@ -85,7 +88,7 @@ function field_at_point(loop, point::CartesianPoint)
 	return Bx, By, Bz, λ, χ
 end
 
-function field_on_box(loops, xs, ys, zs)
+function field_on_grid(loops, xs, ys, zs)
 	Nx, Ny, Nz = length(xs), length(ys), length(zs)
 
 	Bx = zeros(Nx, Ny, Nz)

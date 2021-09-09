@@ -1,6 +1,7 @@
 using LoopFieldCalc
 using Test
 
+
 function test_many_loops()
 	xs = 0.0:0.0
 	ys = -0.4:0.005:0.4
