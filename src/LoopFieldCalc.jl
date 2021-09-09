@@ -104,6 +104,27 @@ function field_on_box(loops, xs, ys, zs)
 	return Bx, By, Bz
 end
 
+"""
+	write_field(filename, xs, ys, Bx, By)
+Write magnetic field to Tecplot ASCII datafile for two-dimensional data
+"""
+function write_field(filename, xs, ys, Bx, By)
+	Nx, Ny= length(xs), length(ys)
+
+	open(filename, "w") do f
+		println(f, "VARIABLES = \"X\" \"Y\"\"Bx\" \"By\"")
+		println(f, "ZONE I = $Nx, J = $Ny")
+		for (j, y) in enumerate(ys), (i, x) in enumerate(xs)
+			row = "$(x)\t$(y)\t$(Bx[i, j])\t$(By[i, j])"
+			println(f, row)
+		end
+	end
+end
+"""
+
+	write_field(filename, xs, ys, zs, Bx, By, Bz)
+Write magnetic field to Tecplot ASCII datafile for three-dimensional data
+"""
 function write_field(filename, xs, ys, zs, Bx, By, Bz)
 
 	Nx, Ny, Nz = length(xs), length(ys), length(zs)
