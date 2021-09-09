@@ -5,11 +5,19 @@
 
 Compute the magnetic field due to current-carrying loops at arbitrary locations.
 
+## Installation
+Install via Julia package manager
+```julia
+] add https://github.com/archermarx/LoopFieldCalc.jl.git
+```
+
 ## Example 1: Field due to a single loop
 
 We define a current loop as follows
 
 ```julia
+using LoopFieldCalc
+
 # Define current loop with radius of 50 cm, current of 1 A, centered at the origin
 loop = LoopFieldCalc.CurrentLoop(
   radius = 0.5,         # radius in meters
