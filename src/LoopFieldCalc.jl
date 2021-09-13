@@ -115,7 +115,7 @@ function write_field(filename, xs, ys, Bx, By)
 	Nx, Ny= length(xs), length(ys)
 
 	open(filename, "w") do f
-		println(f, "VARIABLES = \"X\" \"Y\"\"Bx\" \"By\"")
+		println(f, "VARIABLES = \"X\" \"Y\" \"Bx\" \"By\"")
 		println(f, "ZONE I = $Nx, J = $Ny")
 		for (j, y) in enumerate(ys), (i, x) in enumerate(xs)
 			row = "$(x)\t$(y)\t$(Bx[i, j])\t$(By[i, j])"
