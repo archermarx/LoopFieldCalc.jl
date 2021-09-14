@@ -112,7 +112,10 @@ end
 Write magnetic field to Tecplot ASCII datafile for two-dimensional data
 """
 function write_field(filename, xs, ys, Bx, By)
-	mkpath(joinpath(splitpath(filename)[1:end-1]...))
+	split_fname = splitpath(filename)
+	if length(split_fname) > 1 # If file is in folder, make sure that folder exists
+		mkpath(joinpath(split_fname[1:end-1]...))
+	end
 	Nx, Ny= length(xs), length(ys)
 	open(filename, "w") do f
 		println(f, "VARIABLES = \"X\" \"Y\" \"Bx\" \"By\"")
@@ -129,7 +132,10 @@ end
 Write magnetic field to Tecplot ASCII datafile for three-dimensional data
 """
 function write_field(filename, xs, ys, zs, Bx, By, Bz)
-	mkpath(joinpath(splitpath(filename)[1:end-1]...))
+	split_fname = splitpath(filename)
+	if length(split_fname) > 1 # If file is in folder, make sure that folder exists
+		mkpath(joinpath(split_fname[1:end-1]...))
+	end
 	Nx, Ny, Nz = length(xs), length(ys), length(zs)
 	open(filename, "w") do f
 		println(f, "VARIABLES = \"X\" \"Y\" \"Z\" \"Bx\" \"By\" \"Bz\"")
