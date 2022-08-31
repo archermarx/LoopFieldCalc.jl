@@ -1,14 +1,14 @@
 abstract type Point end
 
-struct CartesianPoint{T} <: Point
-	x::T
-	y::T
-	z::T
+struct CartesianPoint{X, Y, Z} <: Point
+	x::X
+	y::Y
+	z::Z
 end
 
-struct CylindricalPoint{T} <: Point
-	z::T
-	r::T
+struct CylindricalPoint{Z, R, T} <: Point
+	z::Z
+	r::R
 	θ::T
 end
 
