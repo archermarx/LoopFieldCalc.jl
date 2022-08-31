@@ -6,10 +6,10 @@ const μ₀ = 4π * 1e-7
 
 include("geometry.jl")
 
-Base.@kwdef struct CurrentLoop
+Base.@kwdef struct CurrentLoop{T}
 	radius::Float64
 	current::Float64
-	center::CartesianPoint
+	center::CartesianPoint{T}
 end
 
 CurrentLoop(;radius, current, x, y, z) =
