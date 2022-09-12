@@ -38,8 +38,7 @@ function test_many_loops()
 	]
 
 	loops = [outer_bobbin; inner_bobbin]
-	Bx, By, Bz = LoopFieldCalc.field_on_box(loops, xs, ys, zs)
+	Bx, By, Bz = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
 	LoopFieldCalc.write_field("many_loops.dat", zs, ys, Bz[1, :, :]', By[1, :, :]')
 end
 test_many_loops()
-
