@@ -1,6 +1,6 @@
 module LoopFieldCalc
 
-using Elliptic2, Printf, Contour
+using Elliptic2., Printf, Contour
 
 const μ₀ = 4π * 1e-7
 
@@ -52,9 +52,9 @@ function field_at_point(loop, point::CartesianPoint)
 	ξ = atan(z, abs(r-rL))
 	kp² = 1-k²
 
-	K, E = Elliptic.ellipke(k²)
-	Ei = Elliptic.E(ξ, kp²)
-	Fi = Elliptic.F(ξ, kp²)
+	K, E = Elliptic2.ellipke(k²)
+	Ei = Elliptic2.E(ξ, kp²)
+	Fi = Elliptic2.F(ξ, kp²)
 	Λ = 2/pi * (E*Fi + K*(Ei - Fi))
 
 	Ω = 0.0
@@ -150,9 +150,9 @@ end
 #=
 function Λ₀(ξ::Float64, k::Float64)
 	kprime = 1 - k
-	K, E = Elliptic.ellipke(k)
-	return 2/π * (E * Elliptic.F(ξ, kprime) +
-				  K * (Elliptic.E(ξ, kprime) - Elliptic.F(ξ, kprime)))
+	K, E = Elliptic2.ellipke(k)
+	return 2/π * (E * Elliptic2.F(ξ, kprime) +
+				  K * (Elliptic2.E(ξ, kprime) - Elliptic.F(ξ, kprime)))
 end
 
 function fieldatpoint(z, r, rL, I)
@@ -170,9 +170,9 @@ function fieldatpoint(z, r, rL, I)
 	ξ = atan(z, abs(r-rL))
 	kp² = 1-k²
 
-	K, E = Elliptic.ellipke(k²)
-	Ei = Elliptic.E(ξ, kp²)
-	Fi = Elliptic.F(ξ, kp²)
+	K, E = Elliptic2.ellipke(k²)
+	Ei = Elliptic2.E(ξ, kp²)
+	Fi = Elliptic2.F(ξ, kp²)
 	Λ = 2/pi * (E*Fi + K*(Ei - Fi))
 
 	Ω = 0.0
@@ -211,8 +211,8 @@ end
     k² = 4*r*rL / Rmax²
 	B₀ = VACUUM_PERMEABILITY * I / 2/ rL
 
-    E = Elliptic.E(k²)
-	K = Elliptic.K(k²)
+    E = Elliptic2.E(k²)
+	K = Elliptic2.K(k²)
 
 	λ = B₀*rL/2/pi * Rmax * ((2-k²)*K - 2*E)
     return λ
@@ -228,11 +228,11 @@ function loopscalarpotential(z, r, rL, I)
 	Ω = 0.0
 
 	if r<rL
-		Ω = 2*π - 2*z/Rmax*Elliptic.K(k²) - π*Λ₀(ξ, k²)
+		Ω = 2*π - 2*z/Rmax*Elliptic2.K(k²) - π*Λ₀(ξ, k²)
 	elseif r==rL
-		Ω = π - 2*z/Rmax*Elliptic.K(k²)
+		Ω = π - 2*z/Rmax*Elliptic2.K(k²)
 	else
-		Ω = - 2*z/Rmax*Elliptic.K(k²) + π*Λ₀(ξ, k²)
+		Ω = - 2*z/Rmax*Elliptic2.K(k²) + π*Λ₀(ξ, k²)
 	end
 
 	return I/4/π * Ω
