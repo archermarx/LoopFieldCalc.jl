@@ -1,11 +1,11 @@
 name = "LoopFieldCalc"
 uuid = "896acac2-5fe1-47fe-8ead-27e3a9bc5c85"
 authors = ["Thomas Marks <marksta@umich.edu> and contributors"]
-version = "0.2.7"
+version = "0.2.8"
 
 [deps]
 Contour = "d38c429a-6771-53c6-b99e-75d170b6e991"
-Elliptic = "b305315f-e792-5b7a-8f41-49f472929428"
+Elliptic = "0849f792-3ea3-11ed-3c0b-7b4bcacd782f"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [compat]
