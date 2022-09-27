@@ -1,6 +1,6 @@
 module LoopFieldCalc
 
-using Elliptic, Printf, Contour
+using Elliptic2, Printf, Contour
 
 const μ₀ = 4π * 1e-7
 
