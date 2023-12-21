@@ -1,6 +1,6 @@
 # LoopFieldCalc
 
-[![CI](https://github.com/archermarx/LoppFieldCalc.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/archermarx/LoopFieldCalc.jl/actions/workflows/ci.yml)
+[![CI](https://github.com/archermarx/LoopFieldCalc.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/archermarx/LoopFieldCalc.jl/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/archermarx/LoopFieldCalc.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/archermarx/LoopFieldCalc.jl)
 
 Compute the magnetic field due to current-carrying loops at arbitrary locations.
