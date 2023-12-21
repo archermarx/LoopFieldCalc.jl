@@ -1,12 +1,12 @@
 abstract type Point end
 
-struct CartesianPoint{X, Y, Z} <: Point
+Base.@kwdef struct CartesianPoint{X, Y, Z} <: Point
 	x::X
 	y::Y
 	z::Z
 end
 
-struct CylindricalPoint{Z, R, T} <: Point
+Base.@kwdef struct CylindricalPoint{Z, R, T} <: Point
 	z::Z
 	r::R
 	θ::T

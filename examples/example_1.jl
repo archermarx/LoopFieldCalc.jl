@@ -2,9 +2,9 @@ using LoopFieldCalc
 
 # Define current loop with radius of 50 cm, current of 1 A, centered at the origin
 loop = LoopFieldCalc.CurrentLoop(
+  LoopFieldCalc.CartesianPoint(0.0, 0.0, 0.0);  # cartesian coordinates of the loop center
   radius = 0.5,         # radius in meters
   current = 1.0,        # current in Amperes
-  center = LoopFieldCalc.CartesianPoint(0.0, 0.0, 0.0)    # cartesian coordinates of the loop center
 )
 
 # Define grid points along x, y, and z axes. We have a 2D grid of points in the y-z plane.

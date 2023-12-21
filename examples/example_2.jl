@@ -18,9 +18,9 @@ inner_coil_current = 1.0
 # Generate loops for inner coil
 inner_coil = [
     LoopFieldCalc.CurrentLoop(
+        LoopFieldCalc.CylindricalPoint(inner_coil_offset + z, 0.0, 0.0);
         radius = inner_coil_radius,
         current = inner_coil_current / nturns,
-        center = LoopFieldCalc.CylindricalPoint(inner_coil_offset + z, 0.0, 0.0)
     )
     for z in LinRange(0.0, inner_coil_width, nturns)
 ]
@@ -34,9 +34,9 @@ outer_coil_current = 0.5 * inner_coil_current
 # Generate loops for outer coil
 outer_coil = [
     LoopFieldCalc.CurrentLoop(
+        LoopFieldCalc.CylindricalPoint(outer_coil_offset + z, 0.0, 0.0);
         radius = outer_coil_radius,
         current = outer_coil_current / nturns,
-        center = LoopFieldCalc.CylindricalPoint(outer_coil_offset + z, 0.0, 0.0)
     )
     for z in LinRange(0.0, outer_coil_width, nturns)
 ]

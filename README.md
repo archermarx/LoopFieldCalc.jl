@@ -20,9 +20,9 @@ using LoopFieldCalc
 
 # Define current loop with radius of 50 cm, current of 1 A, centered at the origin
 loop = LoopFieldCalc.CurrentLoop(
+  LoopFieldCalc.CartesianPoint(0.0, 0.0, 0.0);    # cartesian coordinates of the loop center
   radius = 0.5,         # radius in meters
   current = 1.0,        # current in Amperes
-  center = LoopFieldCalc.CartesianPoint(0.0, 0.0, 0.0)    # cartesian coordinates of the loop center
 )
 ```
 
@@ -31,9 +31,9 @@ Loop center coordinates can be specified using either cartesian coordinates or c
 ```julia
 # Define current loop with radius of 50 cm, current of 1 A, centered at the origin
 loop = LoopFieldCalc.CurrentLoop(
+  center = LoopFieldCalc.CylindricalPoint(0.0, 0.0, 0.0);    # cartesian coordinates of the loop center
   radius = 0.5,         # radius in meters
   current = 1.0,        # current in Amperes
-  center = LoopFieldCalc.CylindricalPoint(0.0, 0.0, 0.0)    # cartesian coordinates of the loop center
 )
 ```
 
@@ -41,7 +41,7 @@ To compute the magnetic field components at a given point, use the `field_at_poi
 
 ```julia
 # Define the point at which the magnetic field is computed in Cartesian space
-point_to_compute = LoopFieldCalc.CartesianPoint(1.0, 1.0, 1.0)  
+point_to_compute = LoopFieldCalc.CartesianPoint(1.0, 1.0, 1.0)
 
 # Compute the field strength, stream function, and scalar potential
 Bx, By, Bz, stream_func, scalar_potential = LoopFieldCalc.field_at_point(loop, point_to_compute)
@@ -111,9 +111,9 @@ inner_coil_current = 1.0
 # Generate loops for inner coil
 inner_coil = [
     LoopFieldCalc.CurrentLoop(
+        LoopFieldCalc.CylindricalPoint(inner_coil_offset + z, 0.0, 0.0)
         radius = inner_coil_radius,
         current = inner_coil_current / nturns,
-        center = LoopFieldCalc.CylindricalPoint(inner_coil_offset + z, 0.0, 0.0)
     )
     for z in LinRange(0.0, inner_coil_width, nturns)
 ]
@@ -127,9 +127,9 @@ outer_coil_current = 0.3 * inner_coil_current
 # Generate loops for outer coil
 outer_coil = [
     LoopFieldCalc.CurrentLoop(
+        LoopFieldCalc.CylindricalPoint(outer_coil_offset + z, 0.0, 0.0)
         radius = outer_coil_radius,
         current = outer_coil_current / nturns,
-        center = LoopFieldCalc.CylindricalPoint(outer_coil_offset + z, 0.0, 0.0)
     )
     for z in LinRange(0.0, outer_coil_width, nturns)
 ]

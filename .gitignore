@@ -3,4 +3,4 @@
 *.jl.mem
 *.dat
 *.lay
-/docs/build/
+.vscode
