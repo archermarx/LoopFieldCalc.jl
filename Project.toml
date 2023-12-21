@@ -10,7 +10,7 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [compat]
 julia = "1"
-Elliptic2 = "0.1"
+Elliptic2 = ">=0.2"
 Contour = "0.6.2"
 Printf = "<0.0.1, 1"
 
