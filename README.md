@@ -70,8 +70,8 @@ zs = -2.0:0.01:2.0
 # Define current loops. Here, we only have the single loop, defined above
 loops = [loop]
 
-# Compute the magnetic field components
-Bx, By, Bz = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
+# Compute the magnetic field components, along with magnetic stream function and scalar potential
+Bx, By, Bz, streamfunc, potential = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
 ```
 
 You can write output of this function to a Tecplot-compatible ASCII data format
@@ -136,7 +136,7 @@ outer_coil = [
 
 # Combine inner and outer coil loops into a single vector and compute field
 loops = [outer_coil; inner_coil]
-Bx, By, Bz = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
+Bx, By, Bz, streamfunc, potential = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
 
 # Write output. By reversing z and y and transposing the magnetic field matrices, we
 # can rotate the output so that the loop axis is aligned with the x axis

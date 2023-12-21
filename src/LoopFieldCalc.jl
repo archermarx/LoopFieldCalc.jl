@@ -91,17 +91,21 @@ function field_on_grid(loops, xs, ys, zs)
 	Bx = zeros(Nx, Ny, Nz)
 	By = zeros(Nx, Ny, Nz)
 	Bz = zeros(Nx, Ny, Nz)
+	streamfunc = zeros(Nx, Ny, Nz)
+	potential = zeros(Nx, Ny, Nz)
 
 	for (i, x) in enumerate(xs), (j, y) in enumerate(ys), (k, z) in enumerate(zs)
 		for loop in loops
-			bx, by, bz, _, _ = field_at_point(loop, CartesianPoint(x, y, z))
+			bx, by, bz, s, p = field_at_point(loop, CartesianPoint(x, y, z))
 			Bx[i, j, k] += bx
 			By[i, j, k] += by
 			Bz[i, j, k] += bz
+			streamfunc[i, j, k] += s
+			potential[i, j, k] += p
 		end
 	end
 
-	return Bx, By, Bz
+	return Bx, By, Bz, streamfunc, potential
 end
 
 """

@@ -16,6 +16,6 @@ zs = -2.0:0.01:2.0
 loops = [loop]
 
 # Compute the magnetic field components
-Bx, By, Bz = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
+Bx, By, Bz, _, _ = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
 
 LoopFieldCalc.write_field("examples/example_1.dat", ys, zs, By[1, :, :], Bz[1, :, :])

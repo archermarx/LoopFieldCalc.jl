@@ -43,7 +43,7 @@ outer_coil = [
 
 # Combine inner and outer coil loops into a single vector and compute field
 loops = [outer_coil; inner_coil]
-Bx, By, Bz = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
+Bx, By, Bz, _, _ = LoopFieldCalc.field_on_grid(loops, xs, ys, zs)
 
 # Write output. By reversing z and y and transposing the magnetic field matrices, we
 # can rotate the output so that the loop axis is aligned with the x axis

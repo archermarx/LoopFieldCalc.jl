@@ -47,7 +47,7 @@ using LoopFieldCalc: CurrentLoop, CartesianPoint, CylindricalPoint, field_on_gri
 	Bz_indiv = zeros(size(Bz))
 
 	for loop in loops
-		Bx_i, By_i, Bz_i = field_on_grid([loop], xs, ys, zs)
+		Bx_i, By_i, Bz_i, _, _ = field_on_grid([loop], xs, ys, zs)
 		@. Bx_indiv += Bx_i
 		@. By_indiv += By_i
 		@. Bz_indiv += Bz_i
