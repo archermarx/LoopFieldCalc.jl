@@ -77,3 +77,5 @@ end
 		@test Bz ≈ μ0 * I * R^2 / (2 * (z^2 + R^2)^1.5)
 	end
 end
+
+include("runtests_elliptic.jl")
